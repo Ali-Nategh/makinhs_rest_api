@@ -77,6 +77,7 @@ exports.removeById = (userId) => {
     });
 };
 
+
 exports.addFriendById = async (id, friendId, res) => {
     const user = await User.findById(id)
     if (user.friendsId.includes(friendId)) return res.status(400).send("friend already exists");

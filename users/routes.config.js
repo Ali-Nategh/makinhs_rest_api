@@ -34,6 +34,7 @@ exports.routesConfig = function (app) {
         UsersController.removeById
     ]);
 
+    
     app.post('/users/:userId/:friendId', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(FREE),
