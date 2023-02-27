@@ -33,4 +33,15 @@ exports.routesConfig = function (app) {
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
         UsersController.removeById
     ]);
+
+    app.post('/users/:userId/:friendId', [
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(FREE),
+        UsersController.addFriendById
+    ]);
+    app.delete('/users/:userId/:friendId', [
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(FREE),
+        UsersController.removeFriendById
+    ]);
 };
