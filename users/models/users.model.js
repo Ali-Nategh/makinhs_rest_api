@@ -6,14 +6,15 @@ const userSchema = new Schema({
     lastName: String,
     email: String,
     password: String,
-    permissionLevel: Number
+    permissionLevel: Number,
+    friendsId: [String]
 });
 
 userSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
 
-// Ensure virtual fields are serialised.
+// Ensure virtual fields are serialized.
 userSchema.set('toJSON', {
     virtuals: true
 });
