@@ -61,3 +61,12 @@ exports.removeById = (req, res) => {
             res.status(204).send({});
         });
 };
+
+
+exports.addFriendById = async (req, res) => {
+    await UserModel.addFriendById(req.params.userId, req.params.friendId, res)
+};
+
+exports.removeFriendById = async (req, res) => {
+    await UserModel.removeFriendById(req.params.userId, req.params.friendId, res)
+};
