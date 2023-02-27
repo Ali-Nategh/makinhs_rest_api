@@ -27,12 +27,20 @@ exports.list = (req, res) => {
         })
 };
 
-exports.getById = (req, res) => {
-    UserModel.findById(req.params.userId)
-        .then((result) => {
-            res.status(200).send(result);
-        });
+exports.getById = async (req, res) => {
+    const results = [];
+    const user = await UserModel.findById(req.params.userId)
+    results.push(user);
+
+    if (req.query.friends) {
+        for (let i = 0; i < user.friendsId.length; i++) {
+            const friend = await UserModel.findById(user.friendsId[i])
+            results.push(friend);
+        }
+    }
+    return res.status(200).send(results);
 };
+
 exports.patchById = (req, res) => {
     if (req.body.password) {
         let salt = crypto.randomBytes(16).toString('base64');
