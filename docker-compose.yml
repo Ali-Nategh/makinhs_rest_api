@@ -1,14 +1,14 @@
 version: '3'
 services:
-  # api:
-  #   image: makinhs/rest-api-tutorial
-  #   build: .
-  #   networks:
-  #     - backend
-  #   ports:
-  #     - "3600:3600"
-  #   depends_on:
-  #     - mongo
+  api:
+    image: makinhs/rest-api-tutorial
+    build: .
+    networks:
+      - backend
+    ports:
+      - "3600:3600"
+    depends_on:
+      - mongo
 
   mongo:
     image: mongo
