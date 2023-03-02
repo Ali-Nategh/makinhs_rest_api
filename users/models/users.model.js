@@ -7,7 +7,10 @@ const userSchema = new Schema({
     email: String,
     password: String,
     permissionLevel: Number,
-    friendsId: [String]
+    friendsId: {
+        type: [mongoose.SchemaTypes.ObjectId],
+        ref: "Users"
+    }
 });
 
 userSchema.virtual('id').get(function () {
@@ -82,7 +85,7 @@ exports.addFriendById = async (id, friendId, res) => {
     const user = await User.findById(id)
     if (user.friendsId.includes(friendId)) return res.status(400).send("friend already exists");
 
-    await User.findOneAndUpdate({ _id: id }, { friendsId: [...user.friendsId, friendId] });
+    await User.findOneAndUpdate({ _id: id }, { $push: {friendsId: friendId} });
     return res.status(204).send();
 };
 
@@ -90,6 +93,6 @@ exports.removeFriendById = async (id, friendId, res) => {
     const user = await User.findById(id)
     if (!user.friendsId.includes(friendId)) return res.status(400).send("friend doesn't exists");
 
-    await User.findOneAndUpdate({ _id: id }, { friendsId: user.friendsId.filter(id => id !== friendId) });
+    await User.findOneAndUpdate({ _id: id }, { $pull: {friendsId: friendId} });
     return res.status(204).send();
 };
